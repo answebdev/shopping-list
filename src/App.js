@@ -16,7 +16,24 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Hi there!');
+    // Check if value is empty: '!name' -> if empty, display alert.
+    if (!name) {
+      // Disaply alert
+    }
+    // If there IS a value, AND if editing, then...
+    else if (name && isEditing) {
+      // Deal with Edit
+    }
+    // Add item to list
+    else {
+      // Show alert
+
+      // Create new item.
+      // We need a unique ID for each new item, so we're going to cheat here and use 'Date().getTime()' to do that:
+      const newItem = { id: new Date().getTime().toString(), title: name };
+      setList([...list, newItem]);
+      setName('');
+    }
   };
 
   return (
@@ -38,7 +55,7 @@ function App() {
         </div>
       </form>
       <div className='grocery-container'>
-        <List />
+        <List items={list} />
         <button className='clear-btn'>clear items</button>
       </div>
     </section>
