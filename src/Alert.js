@@ -14,6 +14,7 @@ const Alert = ({ type, msg, removeAlert, list }) => {
     return () => clearTimeout(timeout);
 
     // We want this to happen when the component renders, so use an empty dependency: []
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list]);
   return <p className={`alert alert-${type}`}>{msg}</p>;
 };
