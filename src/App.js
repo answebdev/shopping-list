@@ -4,11 +4,28 @@ import Alert from './Alert';
 
 // Source: https://www.youtube.com/watch?v=a_7Z7C_JCyo
 
+// Function for local storage so that the data persists in local storage when page is refreshed.
+// See 'localStorage.setItem' down below in 'useEffect'.
+const getLocalStorage = () => {
+  // Get item from local storage.
+  let list = localStorage.getItem('list');
+  // If 'list' exists, it's going to be truthy, meaning it will be evaluated as 'true', so then we return it.
+  // If not, then we return an empty array (we need to return something, so'll return an empty array).
+  if (list) {
+    // Since we're storing this as a string, we also need to parse it.
+    // 'list' comes from below (see 'localStorage.setItem' down below in 'useEffect').
+    return JSON.parse(localStorage.getItem('list'));
+  } else {
+    return [];
+  }
+};
+
 function App() {
   const [name, setName] = useState('');
 
   // This will eventually be stored in local storage:
-  const [list, setList] = useState([]);
+  // const [list, setList] = useState([]);
+  const [list, setList] = useState(getLocalStorage());
   const [isEditing, setIsEditing] = useState(false);
   // State for editing the ID:
   const [editID, setEditID] = useState(null);
@@ -103,6 +120,20 @@ function App() {
     // Display the item that is being edited.
     setName(specificItem.title);
   };
+
+  // Local Storage Logic
+  useEffect(() => {
+    // We need to come up with a key name ('list'), because 'setItem' uses key-value pairs.
+    // And we can only store it as a string, so we do 'JSON.stringify(list)'.
+    // Every time we do something with the list, we wipe out the old values,
+    // because essentially, we will overwrite and save the latest values of the 'list'.
+
+    // And we also need to handle this when we initially set up the list (right now, it's an empty array -
+    // see state above -> const [list...]: useState([]) - commented out code)
+    localStorage.setItem('list', JSON.stringify(list));
+
+    // Every time the 'list' changes, call 'localStorage'.
+  }, [list]);
 
   return (
     <section className='section-center'>
