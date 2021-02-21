@@ -37,7 +37,26 @@ function App() {
     }
     // If there IS a value, AND if user is editing, then edit.
     else if (name && isEditing) {
-      // Deal with Edit
+      // Edit logic.
+      // If the item ID matches the edit ID, then return all the properties (the ID),
+      // and change the title (see if statement below).
+      // If not, then just return the 'item'.
+      setList(
+        // Iterate over our list.
+        list.map((item) => {
+          if (item.id === editID) {
+            // Copy all the values from the 'item', but change the title -
+            // the title will now be equal to the 'name'.
+            return { ...item, title: name };
+          }
+          return item;
+        })
+      );
+      // Clear the input field after submitting.
+      setName('');
+      setEditID(null);
+      setIsEditing(false);
+      showAlert(true, 'success', 'value updated');
     }
     // If there is a value and user is NOT editing, create a new item
     // (with the properties of ID and Title), and add it to the list.
@@ -75,6 +94,16 @@ function App() {
     setList(list.filter((item) => item.id !== id));
   };
 
+  const editItem = (id) => {
+    // Get ID with matching ID.
+    // If item ID maches, return that item
+    const specificItem = list.find((item) => item.id === id);
+    setIsEditing(true);
+    setEditID(id);
+    // Display the item that is being edited.
+    setName(specificItem.title);
+  };
+
   return (
     <section className='section-center'>
       <form className='grocery-form' onSubmit={handleSubmit}>
@@ -99,7 +128,7 @@ function App() {
       {list.length > 0 && (
         <div className='grocery-container'>
           {/* Pass in the 'list' as a prop into the List component - here, the prop is named 'items' (see List.js, where it's destructured).*/}
-          <List items={list} removeItem={removeItem} />
+          <List items={list} removeItem={removeItem} editItem={editItem} />
           <button className='clear-btn' onClick={clearList}>
             clear items
           </button>
