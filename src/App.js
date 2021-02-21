@@ -68,13 +68,20 @@ function App() {
     setList([]);
   };
 
+  const removeItem = (id) => {
+    showAlert(true, 'danger', 'item removed');
+    // If the item ID does NOT match, add it to the new array.
+    // if it DOES match, then it will not get returned, and it will not be displayed.
+    setList(list.filter((item) => item.id !== id));
+  };
+
   return (
     <section className='section-center'>
       <form className='grocery-form' onSubmit={handleSubmit}>
         {/* By default, 'show' in 'showAlert' (see above) is false, so since this is passed into 'removeAlert' here, it will be 'false',
         which means it will not show, which is what we want for 'removeAlert', and which we will use in Alert.js in 'useEffect'
         to set the timer so that the alert is removed after 3 seconds. */}
-        {alert.show && <Alert {...alert} removeAlert={showAlert} />}
+        {alert.show && <Alert {...alert} removeAlert={showAlert} list={list} />}
         <h3>Shopping List</h3>
         <div className='form-control'>
           <input
@@ -92,7 +99,7 @@ function App() {
       {list.length > 0 && (
         <div className='grocery-container'>
           {/* Pass in the 'list' as a prop into the List component - here, the prop is named 'items' (see List.js, where it's destructured).*/}
-          <List items={list} />
+          <List items={list} removeItem={removeItem} />
           <button className='clear-btn' onClick={clearList}>
             clear items
           </button>
