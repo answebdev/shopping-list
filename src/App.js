@@ -23,6 +23,19 @@ function App() {
     <section className='section-center'>
       <form className='grocery-form' onSubmit={handleSubmit}>
         {alert.show && <Alert />}
+        <h3>Shopping List</h3>
+        <div className='form-control'>
+          <input
+            type='text'
+            className='grocery'
+            placeholder='e.g. eggs'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <button type='submit' className='submit-btn'>
+            {isEditing ? 'edit' : 'submit'}
+          </button>
+        </div>
       </form>
       <div className='grocery-container'>
         <List />
