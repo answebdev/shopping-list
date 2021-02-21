@@ -43,6 +43,7 @@ function App() {
     // (with the properties of ID and Title), and add it to the list.
     else {
       // Show alert
+      showAlert(true, 'success', 'item added to the list');
 
       // Create new item.
       // We need a unique ID for each new item, so we're going to cheat here and use 'Date().getTime()' to do that:
@@ -57,6 +58,14 @@ function App() {
   // Create a function (show alert if submitted with empty input field) because this logic will be used in more than one place.
   const showAlert = (show = false, type = '', msg = '') => {
     setAlert({ show, type, msg });
+  };
+
+  // Clear items from list.
+  const clearList = () => {
+    showAlert(true, 'danger', 'empty list');
+
+    // Clear all the values:
+    setList([]);
   };
 
   return (
@@ -84,7 +93,9 @@ function App() {
         <div className='grocery-container'>
           {/* Pass in the 'list' as a prop into the List component - here, the prop is named 'items' (see List.js, where it's destructured).*/}
           <List items={list} />
-          <button className='clear-btn'>clear items</button>
+          <button className='clear-btn' onClick={clearList}>
+            clear items
+          </button>
         </div>
       )}
     </section>
